@@ -8,7 +8,7 @@ import { Page } from '../components/page';
 import PointList from '../components/point-list';
 /*eslint-enable no-unused-vars*/
 
-import { publishPoints } from '../reducers/points';
+import { publishPoints, rescindPoint } from '../reducers/points';
 import { setDrawer } from '../reducers/btc-drawer';
 import history from '../history';
 
@@ -26,7 +26,7 @@ class PublishPage extends Component {
   }
 
   onPointRemove( point ) {
-    // TODO: implement onPointRemove
+    this.props.rescindPoint(point._id);
   }
 
   onPublish() {
@@ -87,6 +87,6 @@ function mapStateToProps( state ) {
   };
 }
 
-const mapDispatchToProps = { publishPoints, setDrawer };
+const mapDispatchToProps = { publishPoints, rescindPoint, setDrawer };
 
 export default connect( mapStateToProps, mapDispatchToProps )( PublishPage );

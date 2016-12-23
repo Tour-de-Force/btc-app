@@ -55,6 +55,16 @@ export default function reducer( state = initState, action ) {
     set( state, idPath, action.point );
     break;
   case RESCIND_POINT:
+	// Make sure the point is in our updated list.
+	var idIndex = state.publish.updated.indexOf(action.id)
+    if(idIndex >= 0) {
+    	// Remove the point from our updated list.
+      state.publish.updated.splice(idIndex, 1);
+    } else {
+    	console.warn("Trying to remove a point that wasn't added.");
+    }
+    localStorage.setItem(UPDATED_POINTS_LOCALSTORAGE_KEY, JSON.stringify(state.publish.updated));
+    // Remove the updates from the local database.
     unset( state, idPath );
     break;
   case RELOAD_POINTS:

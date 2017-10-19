@@ -85,13 +85,16 @@ class MapPage extends Component {
     const props = {
       deselectMarker: MapPage.deselectMarker,
       selectMarker: point => MapPage.navigateWithId( 'peek-point', point )
-    };
+    };  
     return (
       <div className="layout__section__fullflex">
         <ConnectedPointMap className="map map--browse-mode"
           { ...props } />
-        <MapButtons buttons={ buttons }
-          history={ history } />
+        <MapButtons 
+        buttons={ buttons }
+        history={ history }
+        { ...this.props.MapButtons}
+           />
         { this.mapPropsOnCard() }
       </div>
       );
@@ -102,7 +105,11 @@ function mapStateToProps( state ) {
   return {
     points: state.points.points, // PointCards are built for this marker
     coverPhotoUrls: state.points.coverPhotoUrls,
-    login: state.account.login
+    login: state.account.login,
+    MapButtons: {
+      map: state.map,
+      filters: state.filters
+    }
   };
 }
 

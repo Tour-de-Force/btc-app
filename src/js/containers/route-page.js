@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { RaisedButton, FontIcon, Card, CardHeader, CardMedia, CardTitle, CardActions, CardText, LinearProgress } from 'material-ui';
 import DeviceStorage from '../components/device-storage';
 import { Page } from '../components/page';
-/*eslint-enable no-unused-vars*/
 
 import { connect } from 'react-redux';
 import { isFinite } from 'underscore';
@@ -12,6 +11,7 @@ import history from '../history';
 import { setDrawer } from '../reducers/btc-drawer';
 import { fetchTrack, clearTrack, activateTrack, deactivateTrack } from '../reducers/tracks';
 import { setMapZoom, setMapCenter, setFitBoundingBox } from '../reducers/map';
+/*eslint-enable no-unused-vars*/
 
 
 
@@ -19,33 +19,33 @@ class RoutePage extends Component {
   componentDidMount() {
     this.props.dispatch( setDrawer( 'USBRS Routes' ) );
   }
-/*
-  onSaveTrack( id, pkg ) {
-    this.props.dispatch( fetchTrack( id, pkg ) );
-  }
+  /*
+    onSaveTrack( id, pkg ) {
+      this.props.dispatch( fetchTrack( id, pkg ) );
+    }
 
-  onCancelTrack( id ) {
-    console.log( 'FIXME: `onCancelTrack`' );
-  }
+    onCancelTrack( id ) {
+      console.log( 'FIXME: `onCancelTrack`' );
+    }
 
-  onRemoveTrack( id ) {
-    this.props.dispatch( clearTrack( id ) );
-  }
+    onRemoveTrack( id ) {
+      this.props.dispatch( clearTrack( id ) );
+    }
 
-  onActivationTrack( id, val ) {
-    const fn = val ? activateTrack : deactivateTrack;
-    this.props.dispatch( fn( id ) );
-  }*/
+    onActivationTrack( id, val ) {
+      const fn = val ? activateTrack : deactivateTrack;
+      this.props.dispatch( fn( id ) );
+    }*/
 
 
-  jumpToTrackLocation(trackBoundingBox){
-      this.props.dispatch(setFitBoundingBox(trackBoundingBox));
-      history.push( '/' ); 
+  jumpToTrackLocation( trackBoundingBox ) {
+    this.props.dispatch( setFitBoundingBox( trackBoundingBox ) );
+    history.push( '/' );
   }
 
   render() {
     const {tracks} = this.props;
-
+    // eslint-disable-next-line no-unused-vars
     const downloaded = Object.keys( tracks ).reduce( ( pre, cur ) => {
       return pre + ( tracks[ cur ].status === 'fetched' );
     }, 0 );
@@ -85,47 +85,42 @@ class RoutePage extends Component {
       }*/
 
       /* onTouchTap={  } */
-      /* secondary={ track.active } */ 
+      /* secondary={ track.active } */
       /* this.onActivationTrack.bind( this, id, !track.active)  */
       /* subtitle={ `${track.sizeMiB} MiB` } */
       /* <img src='./img/usbr20.png' /> */
 
       return (
-        <Card
-          key={ id }
+        <Card key={ id }
           style={ { margin: 40 } }>
-
-          <CardMedia 
-          overlay={ <CardTitle title={ track.name } subtitle="United States Bicycle Route"/> }>
-          <img src = { `./img/${track._id}.png` } />
+          <CardMedia overlay={ <CardTitle title={ track.name }
+                                 subtitle="United States Bicycle Route" /> }>
+            <img src={ `./img/${track._id}.png` } />
           </CardMedia>
-          
           <CardText>
             { track.description }
           </CardText>
-          
           <CardActions>
             <RaisedButton id={ id }
               label='Show Route'
-              onTouchTap={ this.jumpToTrackLocation.bind(this, track.boundingBox) }
+              onTouchTap={ this.jumpToTrackLocation.bind( this, track.boundingBox ) }
               icon={ <FontIcon className='material-icons'>visibility</FontIcon> } />
           </CardActions>
-
         </Card>
         );
     } );
 
-    
+
     return (
       <Page className="layout__section">
-		{ rows }
+        { rows }
       </Page>
       );
-  }//end render
+  } //end render
 }
 
 const select = state => {
   return { tracks: state.tracks.toJS() };
 };
 /* ( select ) */
-export default connect ( select ) ( RoutePage );
+export default connect( select )( RoutePage );

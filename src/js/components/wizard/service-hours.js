@@ -117,12 +117,11 @@ export class ServiceHours extends WizardPage {
 
   getPageSecondaryActions() {
     return (
-		<div>
-			<RaisedButton disabled={ !this.state.day }
-			onTouchTap={ this.addHours }
-			label="Add Hours" />
-			&nbsp;&nbsp;
-		</div>
+      <div>
+        <RaisedButton disabled={ !this.state.day }
+          onTouchTap={ this.addHours }
+          label="Add Hours" />
+      </div>
       );
   }
 

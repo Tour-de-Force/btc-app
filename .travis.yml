@@ -1,9 +1,7 @@
 
 branches:
   only:
-    - master
-    - /^v[0-9]/ # Build tags too! (Travis checks for tags as branch names)
-
+    - /.*/
 language: android
 android:
   components:
@@ -22,22 +20,22 @@ script:
 - npm run format
 - npm test
 
-before_deploy:
-- export NODE_ENV=production
-- npm run debug:android
-- npm run release:android
-deploy:
-  provider: releases
-  api_key:
-    secure: Al793qKr4aBTJYZV7RougUACvg5zJw7qQeohuvPs4ObcEfU27VPj2NVCKlSPr5T6jThwRz9n4IivT0GE0ISNwwQWZkxMYfZcWug6P3ufRGWCen2jQVkhpdTW+d5LWlgWTEQhOSXSWgmRfAcWV9mwo2168s6RVNQcgi2SL9aSq7cDXfNQ4oFnV7dEYK3hm42rnvFHiphyiFAsXZy9gPRe6JzwifTWNpQtzx6mgIW0NNrRIkej/KOqdm6kZtZ5KcXoaeUAvT9Jtex+svuo6TS9KkGovIkTVCk1LQ7wdAXKFcLp/DUTL/uuMzafBpkD77zfr0v2N9zQPKMEEs2hw/CkHuGxbbXxhdtKJ3xFwsILVo3W7QHpoH5rJZh4gOKlTXFGEMQayQVBWdhYGTl9G/NCFIBj9gMsGw6ILF1gD02beNBRiXFfL4HdFlU2dV+f7CeKyOYAwivMA7q4DKRKsOL4mTIDUkIoxVxsQPkqzTDeP8ZpAvj031c8Dd0eEw1zN9Iyt8ayQpVvfREkvNEPdsCLCUPtGss0BeyyJs40CaRhTQnyR8dVbEPuWGJbTKEIqpVfo91fCM9yTUocRALD5P+5DwZNd29ssy5o87NJV0Zgai6KsopWJjB0r5vlu+vzlqq3GV96GMK//OjG+BWh2RqYtsQBZuu33yZ7ZYx5a5FOQts
-  skip_cleanup: true
-  file:
-    - "bicycle-touring-companion.apk"
-    - "bicycle-touring-companion-debug.apk"
-  on:
-    repo: bikelomatic-complexity/app
-    branch: master
-    tags: true
+#before_deploy:
+#- export NODE_ENV=production
+#- npm run debug:android
+#- npm run release:android
+#deploy:
+#  provider: releases
+#  api_key:
+#    secure: Al793qKr4aBTJYZV7RougUACvg5zJw7qQeohuvPs4ObcEfU27VPj2NVCKlSPr5T6jThwRz9n4IivT0GE0ISNwwQWZkxMYfZcWug6P3ufRGWCen2jQVkhpdTW+d5LWlgWTEQhOSXSWgmRfAcWV9mwo2168s6RVNQcgi2SL9aSq7cDXfNQ4oFnV7dEYK3hm42rnvFHiphyiFAsXZy9gPRe6JzwifTWNpQtzx6mgIW0NNrRIkej/KOqdm6kZtZ5KcXoaeUAvT9Jtex+svuo6TS9KkGovIkTVCk1LQ7wdAXKFcLp/DUTL/uuMzafBpkD77zfr0v2N9zQPKMEEs2hw/CkHuGxbbXxhdtKJ3xFwsILVo3W7QHpoH5rJZh4gOKlTXFGEMQayQVBWdhYGTl9G/NCFIBj9gMsGw6ILF1gD02beNBRiXFfL4HdFlU2dV+f7CeKyOYAwivMA7q4DKRKsOL4mTIDUkIoxVxsQPkqzTDeP8ZpAvj031c8Dd0eEw1zN9Iyt8ayQpVvfREkvNEPdsCLCUPtGss0BeyyJs40CaRhTQnyR8dVbEPuWGJbTKEIqpVfo91fCM9yTUocRALD5P+5DwZNd29ssy5o87NJV0Zgai6KsopWJjB0r5vlu+vzlqq3GV96GMK//OjG+BWh2RqYtsQBZuu33yZ7ZYx5a5FOQts
+#  skip_cleanup: true
+#  file:
+#    - "bicycle-touring-companion.apk"
+#    - "bicycle-touring-companion-debug.apk"
+#  on:
+#    repo: WheelieTired/btc-app
+#    branch: master
+#    tags: true
 
 cache:
   directories:

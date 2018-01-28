@@ -16,24 +16,24 @@ const initState = {
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case REQUEST_FORGOT_PASSWORD:
-    return {...state,
+    return { ...state,
       fetching: true
     };
   case RECEIVE_FORGOT_PASSWORD:
-    return {...state,
+    return { ...state,
       fetching: false,
       received: true,
       validation: [],
       error: action.error || null
     };
   case FAILED_FORGOT_PASSWORD_VALIDATION:
-    return {...state,
+    return { ...state,
       fetching: false,
       received: false,
       validation: action.error || []
     };
   case CLEAR_FORGOT_VALIDATION_AND_ERROR:
-  	return {...state,
+    return { ...state,
       validation: [],
       error: null
     };
@@ -71,7 +71,7 @@ export function forgotPassword( attrs, success ) {
         } );
     } );
 
-    promise.then( ( ) => {
+    promise.then( () => {
       dispatch( receiveForgotPassword() );
       if ( success ) success();
     }, error => {

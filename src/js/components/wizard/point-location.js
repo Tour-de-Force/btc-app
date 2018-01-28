@@ -14,7 +14,7 @@ import '../../../css/map.css';
 // you cannot update a service's location). When the user starts to add an
 // alert or service, the center of the map should be used as the new point's
 // initial location, which may be modified by dragging the map below a
-// "bobbing" marker.
+// 'bobbing' marker.
 //
 // As the user drags the map underneath the bobbing marker, we grab the new
 // location from a leaflet event.
@@ -46,17 +46,17 @@ export class PointLocation extends WizardPage {
 
   // The parent div has no styling as both children are absolutely positioned
   getPageContent() {
-    var markerClass = "crosshairs__marker";
-    if (this.props.isAlert) {
-      markerClass = "crosshairs__marker_alert";
+    var markerClass = 'crosshairs__marker';
+    if ( this.props.isAlert ) {
+      markerClass = 'crosshairs__marker_alert';
     }
     return (
       <div>
         <ConnectedPointMap addPoint
-          className="map map--wizard-mode"
+          className='map map--wizard-mode'
           afterMoved={ this.updateLocation } />
-        <div className="crosshairs">
-          <div className="crosshairs__shadow" />
+        <div className='crosshairs'>
+          <div className='crosshairs__shadow' />
           <div className={ markerClass } />
         </div>
       </div>

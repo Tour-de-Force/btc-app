@@ -31,7 +31,7 @@ export class PointMap extends Component {
     const {map, setGeoLocation, setMapCenter, setMapLoading, setMapZoom} = this.props;
 
     //path to the leaflet images folder
-    Leaflet.Icon.Default.imagePath = "img/icons/";
+    Leaflet.Icon.Default.imagePath = 'img/icons/';
 
     if ( map.loading ) {
       navigator.geolocation.getCurrentPosition(
@@ -112,37 +112,36 @@ export class PointMap extends Component {
       } );
     } ).map( point => {
       // TODO: Don't even include the onClick listener if we're in addPoint mode
-      const onClick = ( ) => {
+      const onClick = () => {
         if ( !this.props.addPoint ) {
           selectMarker( point );
         }
       };
-      if(Point.uri( point._id ).type === 'alert') {
-        var alertIcon = Leaflet.icon({
-            iconUrl: 'img/icons/alert-icon.png',
-            shadowUrl: 'img/icons/marker-shadow.png',
+      if ( Point.uri( point._id ).type === 'alert' ) {
+        var alertIcon = Leaflet.icon( {
+          iconUrl: 'img/icons/alert-icon.png',
+          shadowUrl: 'img/icons/marker-shadow.png',
 
-            iconSize:     [25, 38],     // size of the icon
-            shadowSize:   [41, 41],     // size of the shadow
-            iconAnchor:   [14, 38],     // point of the icon which will correspond to marker's location
-            shadowAnchor: [15, 41],     // the same for the shadow
-            popupAnchor:  [0, 0]        // point from which the popup should open relative to the iconAnchor
-        });
+          iconSize: [ 25, 38 ], // size of the icon
+          shadowSize: [ 41, 41 ], // size of the shadow
+          iconAnchor: [ 14, 38 ], // point of the icon which will correspond to marker's location
+          shadowAnchor: [ 15, 41 ], // the same for the shadow
+          popupAnchor: [ 0, 0 ] // point from which the popup should open relative to the iconAnchor
+        } );
         return (
-        <Marker key={ point._id }
-          radius={ 10 }
-          position={ point.location }
-          onclick={ onClick }
-          icon = { alertIcon } />
-        );
-      }
-      else {
+          <Marker key={ point._id }
+            radius={ 10 }
+            position={ point.location }
+            onclick={ onClick }
+            icon={ alertIcon } />
+          );
+      } else {
         return (
-        <Marker key={ point._id }
-          radius={ 10 }
-          position={ point.location }
-          onclick={ onClick } />
-        );
+          <Marker key={ point._id }
+            radius={ 10 }
+            position={ point.location }
+            onclick={ onClick } />
+          );
       }
     } );
 
@@ -152,8 +151,8 @@ export class PointMap extends Component {
       return (
         <MultiPolyline key={ track._id }
           polylines={ track.waypoints }
-          color="#f30"
-          opacity="0.8" />
+          color='#f30'
+          opacity='0.8' />
         );
     } );
 
@@ -197,10 +196,10 @@ export class PointMap extends Component {
           <CircularProgress size={ 2 } />
         </div>
       );
-    } else if (map.fitBoundingBox) {
+    } else if ( map.fitBoundingBox ) {
       view = (
         <Map className={ this.props.className || 'map' }
-          bounds= { map.fitBoundingBox }
+          bounds={ map.fitBoundingBox }
           onMove={ this.props.onLeafletMove }
           onMoveend={ this.onMapMoved }
           onClick={ this.props.addPoint ? noop : deselectMarker }>
@@ -211,7 +210,7 @@ export class PointMap extends Component {
           { children }
         </Map>
       );
-      setFitBoundingBox(null);
+      setFitBoundingBox( null );
     } else {
       view = (
         <Map className={ this.props.className || 'map' }

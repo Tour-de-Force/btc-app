@@ -21,7 +21,7 @@ export default function dialog( state = initState, action ) {
 export function setSnackbar( dialog, timeout ) {
   if ( timeout ) {
     return dispatch => {
-      setTimeout( ( ) => {
+      setTimeout( () => {
         dispatch( setSnackbar( dialog ) );
       }, timeout );
     };

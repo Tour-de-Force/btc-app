@@ -9,7 +9,7 @@ const initState = {
 export default function filters( state = initState, action ) {
   switch ( action.type ) {
   case SET_FILTERS:
-    return {...state, 
+    return { ...state,
       activeFilters: [ ...action.filters.activeFilters ],
       openServices: action.filters.openServices,
       hideAlert: action.filters.hideAlert

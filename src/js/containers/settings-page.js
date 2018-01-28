@@ -13,9 +13,9 @@ import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import Help from 'material-ui/svg-icons/action/help';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 
-/*eslint-enable no-unused-vars*/
 
 import noop from 'lodash/noop';
+/*eslint-enable no-unused-vars*/
 
 import history from '../history';
 import { resetPoints, replicatePoints } from '../reducers/points';
@@ -31,7 +31,7 @@ export class SettingsPage extends Component {
   }
 
   launchPanels() {
-    history.push( `/onboarding`);
+    history.push( '/onboarding' );
   }
 
   render() {
@@ -42,7 +42,7 @@ export class SettingsPage extends Component {
       subtext: 'Don\'t connect to the internet',
       toggled: !settings.onlineMode,
       onToggle: offline => setOnlineMode( !settings.onlineMode )
-    }/*, {
+    } /*, {
       text: 'Download on mobile',
       subtext: 'Use 3G or 4G data',
       toggled: false,
@@ -61,7 +61,7 @@ export class SettingsPage extends Component {
     } );
 
     var options = { year: '2-digit', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-    const date = 'Last: ' + new Date(this.props.lastReplicatedTimestamp).toLocaleDateString(navigator.language, options);
+    const date = 'Last: ' + new Date( this.props.lastReplicatedTimestamp ).toLocaleDateString( navigator.language, options );
     const lastUpdated = (
     <ListItem primaryText='Update points now'
       onTouchTap={ replicatePoints }
@@ -103,9 +103,9 @@ export class SettingsPage extends Component {
       );
     }
 
-    /*esfmt-ignore-start*/
+  /*esfmt-ignore-start*/
     return (
-      <Page className="layout__section">
+      <Page className='layout__section'>
         <Block style={ { padding: 0 } }>
           <List>
             { toggleItems }

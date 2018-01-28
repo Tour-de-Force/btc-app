@@ -40,13 +40,13 @@ class ListPage extends Component {
             labelPosition="after"
             primary={ true }
             icon={ <MapIcon /> }
-            onTouchTap={ ( ) => history.push( '/' ) } />
+            onTouchTap={ () => history.push( '/' ) } />
           <RaisedButton style={ buttonStyles[ 1 ] }
             label="Filter"
             labelPosition="after"
             primary={ true }
             icon={ <FilterIcon /> }
-            onTouchTap={ ( ) => history.push( 'filter' ) } />
+            onTouchTap={ () => history.push( 'filter' ) } />
           <PointList points={ this.props.points }
             coverPhotoUrls={ this.props.coverPhotoUrls }
             clickAction={ this.onPointClick.bind( this ) } />

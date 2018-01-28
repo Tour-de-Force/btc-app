@@ -15,7 +15,7 @@ import { setDrawer } from '../reducers/btc-drawer';
 const fields = [ {
   hint: 'Email',
   name: 'email'
-}];
+} ];
 
 export class ForgotPasswordPage extends Component {
   constructor( props ) {
@@ -34,7 +34,7 @@ export class ForgotPasswordPage extends Component {
   // If password reset is successful, redirect the user to a "thank you" page
   onForgotPassword( values ) {
     const {dispatch} = this.props;
-    dispatch( forgotPassword( values, ( ) => history.push( '/thanks-forgot-password' ) ) );
+    dispatch( forgotPassword( values, () => history.push( '/thanks-forgot-password' ) ) );
   }
 
   render() {

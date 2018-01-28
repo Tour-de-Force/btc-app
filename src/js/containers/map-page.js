@@ -4,7 +4,9 @@ import { Paper } from 'material-ui';
 
 import PointMap from '../components/point-map';
 import ConnectedPointMap from './connected-point-map';
+import VectorMap from './vector-map';
 import MapButtons from '../components/map-buttons';
+import { login } from '../reducers/account/login';
 /*eslint-enable no-unused-vars*/
 
 import { bindActionCreators } from 'redux';
@@ -13,7 +15,6 @@ import { connect } from 'react-redux';
 import { setDrawer } from '../reducers/btc-drawer';
 import { loadPoint, flagPoint, updateService } from '../reducers/points';
 import { getCoverPhotoURLForPointId } from '../reducers/points';
-import { login } from '../reducers/account/login';
 
 import history from '../history';
 
@@ -88,10 +89,10 @@ class MapPage extends Component {
     };
     return (
       <div className="layout__section__fullflex">
-        <ConnectedPointMap className="map map--browse-mode"
-          { ...props } />
+        <VectorMap className="map map--browse-mode" { ...props } { ...this.props.pointMap } {...this.props.pointMapActions}/>
         <MapButtons buttons={ buttons }
-          history={ history } />
+          history={ history }
+          { ...this.props.MapButtons} />
         { this.mapPropsOnCard() }
       </div>
       );
@@ -102,7 +103,11 @@ function mapStateToProps( state ) {
   return {
     points: state.points.points, // PointCards are built for this marker
     coverPhotoUrls: state.points.coverPhotoUrls,
-    login: state.account.login
+    login: state.account.login,
+    MapButtons: {
+      map: state.map,
+      filters: state.filters
+    }
   };
 }
 

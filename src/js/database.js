@@ -17,12 +17,12 @@ connectMut( local, pointModels );
 
 export function reset() {
   return local.destroy().then(
-    ( ) => assignIn( local, new PouchDB( 'points' ), { _destroyed: false } )
+    () => assignIn( local, new PouchDB( 'points' ), { _destroyed: false } )
   );
 }
 
 export function resetDatabaseAndLocalStorageAndRefresh() {
-	return reset().then(( ) => localStorage.clear()).then(( ) => location.reload());
+  return reset().then( () => localStorage.clear() ).then( () => location.reload() );
 }
 
 const {protocol, domain, port} = config.get( 'Client.couch' );

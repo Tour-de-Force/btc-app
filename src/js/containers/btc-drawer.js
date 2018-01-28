@@ -41,7 +41,7 @@ export class BtcDrawer extends Component {
       icon: 'map'
     }, {
       divider: true
-    }];
+    } ];
     if ( login.loggedIn ) {
       pages.push( {
         link: 'add-service',
@@ -84,7 +84,7 @@ export class BtcDrawer extends Component {
       icon: 'info'
     }, {
       divider: true
-    });
+    } );
     if ( login.loggedIn ) {
       pages.push( {
         link: 'logout',
@@ -100,7 +100,7 @@ export class BtcDrawer extends Component {
     }
 
     let navs = pages.map( page => {
-      if( page.divider ) {
+      if ( page.divider ) {
         return ( <Divider/> ); // EARLY RETURN
       }
 
@@ -123,8 +123,8 @@ export class BtcDrawer extends Component {
 
     return (
       <AppBar className="navigation_bar"
-      title={ this.props.drawer }
-              onLeftIconButtonTouchTap={ this.showNav }>
+        title={ this.props.drawer }
+        onLeftIconButtonTouchTap={ this.showNav }>
         <Drawer docked={ false }
           onRequestChange={ this.hideNav }
           open={ this.state.open }>

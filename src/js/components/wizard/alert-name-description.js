@@ -46,7 +46,7 @@ export class AlertNameDescription extends WizardPage {
     //create new date variable
     var tomorrow = new Date();
     //add 1 day to the date Object to set the minDate to be tomorrow and not today.
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setDate( tomorrow.getDate() + 1 );
 
     return (
       <div className="wizard-page">
@@ -73,20 +73,20 @@ export class AlertNameDescription extends WizardPage {
           rows={ 2 }
           rowsMax={ 4 }
           errorText={ validationErrors[ 'description' ] ? validationErrors[ 'description' ].message : '' } />
-          <DatePicker fullWidth
+        <DatePicker fullWidth
           { ...this.link( 'expiration_date' ) }
-          minDate = { tomorrow }
+          minDate={ tomorrow }
           floatingLabelText="Expires"
-          autoOk = {true}
-          firstDayOfWeek ={0}
+          autoOk={ true }
+          firstDayOfWeek={ 0 }
           errorText={ validationErrors[ 'expiration_date' ] ? validationErrors[ 'expiration_date' ].message : '' } />
       </div>
       );
   }
 
   getPageSecondaryActions() {
-     return (
-      this.getPhotoButton()
+    return (
+    this.getPhotoButton()
     );
   }
 

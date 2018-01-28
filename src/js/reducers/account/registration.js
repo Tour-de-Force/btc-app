@@ -50,8 +50,8 @@ export function register( attrs, success ) {
   if ( user.validationError ) {
     return errorInRegistration( user.validationError );
   }
-  if(attrs.password != attrs.confirm_password){
-    return errorInRegistration([{dataPath: ".confirm_password", message: "passwords must match"}]);
+  if ( attrs.password != attrs.confirm_password ) {
+    return errorInRegistration( [ { dataPath: '.confirm_password', message: 'passwords must match' } ] );
   }
 
   return dispatch => {
@@ -62,24 +62,23 @@ export function register( attrs, success ) {
         .set( 'Content-Type', 'application/json' )
         .send( attrs )
         .end( ( error, response ) => {
-        	if (typeof response == "undefined") {
-        		reject( "Unable to connect to the server." );
-        	}
-        	else {
-				    switch ( response.statusCode ) {
-					    case 200:
-						    resolve();
-						    break;
-					    case 400:
-					  default:
-					    reject( response.body.error );
-					    break;
-				    }
-          }  
+          if ( typeof response == 'undefined' ) {
+            reject( 'Unable to connect to the server.' );
+          } else {
+            switch ( response.statusCode ) {
+            case 200:
+              resolve();
+              break;
+            case 400:
+            default:
+              reject( response.body.error );
+              break;
+            }
+          }
         } );
     } );
 
-    promise.then( ( ) => {
+    promise.then( () => {
       dispatch( receiveRegistration() );
       if ( success ) success();
     }, error => {

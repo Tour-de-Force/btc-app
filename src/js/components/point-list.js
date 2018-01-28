@@ -10,13 +10,13 @@ import { display } from 'btc-models';
 import { connect } from 'react-redux';
 
 export class PointList extends Component {
-  componentWillReceiveProps(nextProps) {
-	if(nextProps.getCoverPhotoURLForPointId) {
-		nextProps.points.forEach(function(point) {
-		// Load all the photos in if they are not yet loaded.
-			nextProps.getCoverPhotoURLForPointId(point._id);
-		});
-	}
+  componentWillReceiveProps( nextProps ) {
+    if ( nextProps.getCoverPhotoURLForPointId ) {
+      nextProps.points.forEach( function( point ) {
+        // Load all the photos in if they are not yet loaded.
+        nextProps.getCoverPhotoURLForPointId( point._id );
+      } );
+    }
   }
 
   render() {
@@ -34,8 +34,8 @@ export class PointList extends Component {
         );
       }
 
-      if ( this.props.coverPhotoUrls[point._id] ) {
-        listProps.leftAvatar = <Avatar src={ this.props.coverPhotoUrls[point._id] } />;
+      if ( this.props.coverPhotoUrls[ point._id ] ) {
+        listProps.leftAvatar = <Avatar src={ this.props.coverPhotoUrls[ point._id ] } />;
       }
 
       return (

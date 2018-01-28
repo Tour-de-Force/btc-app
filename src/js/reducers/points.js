@@ -11,7 +11,7 @@ import { set, unset, bindAll, cloneDeep } from 'lodash';
 
 import { blobToBase64String, base64StringToBlob } from 'blob-util';
 
-import {REHYDRATE} from 'redux-persist/constants'
+import { REHYDRATE } from 'redux-persist/constants';
 
 export const ADD_SERVICE = 'btc-app/points/ADD_SERVICE';
 export const ADD_ALERT = 'btc-app/points/ADD_ALERT';
@@ -49,42 +49,40 @@ const initState = {
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case REHYDRATE:
-  	state = cloneDeep(state);
+    state = cloneDeep( state );
     var incoming = action.payload.points;
-  	if(incoming) {
-		  // Clear the photo URLs; local ones are transient and only valid for the current page load;
-		  // they will be regenerated next time they are needed.
-		  state = {...state, ...incoming, coverPhotoUrls: {}}
-  	}
+    if ( incoming ) {
+      // Clear the photo URLs; local ones are transient and only valid for the current page load;
+      // they will be regenerated next time they are needed.
+      state = { ...state, ...incoming, coverPhotoUrls: {} };
+    }
     return state;
-  	break;
   case UPDATE_SERVICE:
   case ADD_SERVICE:
   case ADD_ALERT:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     // Make sure the point isn't already in our updated list.
-    if(state.publish.updated.indexOf(action.id) < 0) {
+    if ( state.publish.updated.indexOf( action.id ) < 0 ) {
       let updatedPoints = cloneDeep( state.publish.updated );
-      updatedPoints.push(action.id);
+      updatedPoints.push( action.id );
       set( state, 'publish.updated', updatedPoints );
     }
     set( state, 'points.' + action.id, action.point );
 
-    if( action.photo ) {
+    if ( action.photo ) {
       set( state, 'unpublishedCoverPhotos.' + action.id, action.photo );
       // Clear the URL to make sure we get the new (local) photo next time
       unset( state, 'coverPhotoUrls.' + action.id );
     }
     return state;
-    break;
   case RESCIND_POINT:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     // Make sure the point is in our updated list.
-    let updatedPoints = cloneDeep( state.publish.updated );
-    let idIndex = updatedPoints.indexOf(action.id);
-    if(idIndex >= 0) {
+    var updatedPoints = cloneDeep( state.publish.updated );
+    var idIndex = updatedPoints.indexOf( action.id );
+    if ( idIndex >= 0 ) {
       // Remove the point from our updated list.
-      updatedPoints.splice(idIndex, 1);
+      updatedPoints.splice( idIndex, 1 );
       // Update the updated list.
       set( state, 'publish.updated', updatedPoints );
       // Unset the point (it should be readded to the state with reloadPoints).
@@ -93,53 +91,45 @@ export default function reducer( state = initState, action ) {
       unset( state, 'unpublishedCoverPhotos.' + action.id );
       unset( state, 'coverPhotoUrls.' + action.id );
     } else {
-      console.warn("Trying to remove a point that wasn't added.");
+      console.warn( 'Trying to remove a point that was not added.' );
     }
     return state;
-    break;
   case RELOAD_POINTS:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'points', action.points );
     return state;
-    break;
   case REQUEST_LOAD_POINT:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'points.' + action.id, { isFetching: true } );
     return state;
-    break;
   case RECEIVE_LOAD_POINT:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'points.' + action.id, { isFetching: false, ...action.point } );
     return state;
-    break;
   case REQUEST_REPLICATION:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'replication', { time: action.time, inProgress: true } );
     return state;
-    break;
   case RECEIVE_REPLICATION:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'replication', { time: action.time, inProgress: false } );
     // Clear the photo URLs; they will be regenerated next time they are needed.
     set( state, 'coverPhotoUrls', {} );
     return state;
-    break;
   case REQUEST_PUBLISH:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'publish.inProgress', true );
     return state;
-    break;
   case RECEIVE_PUBLISH:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'publish.inProgress', false );
     if ( action.err == null ) {
       set( state, 'publish.updated', [] );
       set( state, 'unpublishedCoverPhotos', {} );
     }
     return state;
-    break;
   case CLEAR_CACHED_POINTS:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     // Clear the state's version of the points.
     set( state, 'points', {} );
     // This only clears the list of unpublished points, not the points themselves.
@@ -149,12 +139,10 @@ export default function reducer( state = initState, action ) {
     // Clear the photo URLs; they will be regenerated next time they are needed.
     set( state, 'coverPhotoUrls', {} );
     return state;
-    break;
   case SET_URL_FOR_POINTID:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     set( state, 'coverPhotoUrls.' + action.pointId, action.url );
     return state;
-    break;
   default:
     return state;
   }
@@ -198,10 +186,11 @@ const factory = type => {
       }
 
       if ( coverBlob ) {
-        return dispatch => promise.then(() => { return blobToBase64String(coverBlob); }).then((base64Blob) => dispatch({ type, id: point.id, point: point.store(), photo: base64Blob }));
-      }
-      else {
-        return dispatch => promise.then(() => dispatch({ type, id: point.id, point: point.store() }));
+        return dispatch => promise.then( () => {
+          return blobToBase64String( coverBlob );
+        } ).then( ( base64Blob ) => dispatch( { type, id: point.id, point: point.store(), photo: base64Blob } ) );
+      } else {
+        return dispatch => promise.then( () => dispatch( { type, id: point.id, point: point.store() } ) );
       }
     }
   };
@@ -215,8 +204,8 @@ export const updateService = factory( UPDATE_SERVICE );
 // database. After a point is synced the first time, it cannot be deleted
 export function rescindPoint( id ) {
   return dispatch => {
-    dispatch({ type: RESCIND_POINT, id });
-    dispatch(reloadPoints());
+    dispatch( { type: RESCIND_POINT, id } );
+    dispatch( reloadPoints() );
   };
 }
 
@@ -236,29 +225,29 @@ export function reloadPoints() {
       var visiblePoints = {};
 
       //getting all keys of all points.
-      let allKeys = Object.keys(allPoints);
+      let allKeys = Object.keys( allPoints );
 
       //loop over all keys and copy each key value if it is visible
-      allKeys.forEach(function(key){
+      allKeys.forEach( function( key ) {
         /* ( If key is not hidden ) AND ( No Expiration Field OR Expiration is Greater than Now )
          * Then display the point.*/
-        if(allPoints[key].is_hidden == false && (allPoints[key].expiration_date == null || new Date(allPoints[key].expiration_date) > new Date() )){
-          visiblePoints[key] = allPoints[key];
+        if ( allPoints[ key ].is_hidden == false && ( allPoints[ key ].expiration_date == null || new Date( allPoints[ key ].expiration_date ) > new Date() ) ) {
+          visiblePoints[ key ] = allPoints[ key ];
         }
-      });
-      dispatch( { type: RELOAD_POINTS, points: visiblePoints} );
+      } );
+      dispatch( { type: RELOAD_POINTS, points: visiblePoints } );
     } );
   };
 }
 
 export function clearCachedPoints() {
-  	return { type: CLEAR_CACHED_POINTS };
+  return { type: CLEAR_CACHED_POINTS };
 }
 
 // # Reset Points
 // Reset the points database then reload the (empty) database.
 export function resetPoints() {
-  	return dispatch => reset().then( ( ) => dispatch( clearCachedPoints() ) ).then( ( ) => dispatch( replicatePoints() ) ).then( ( ) => dispatch( setSnackbar( { message: 'Cleared point cache and reloaded points' } ) ) );
+  return dispatch => reset().then( () => dispatch( clearCachedPoints() ) ).then( () => dispatch( replicatePoints() ) ).then( () => dispatch( setSnackbar( { message: 'Cleared point cache and reloaded points' } ) ) );
 }
 
 // # Load Point
@@ -290,37 +279,37 @@ export function flagPoint( id, reason ) {
   return ( dispatch, getState ) => {
     const {account} = getState();
     return new Promise( ( resolve, reject ) => {
-    const request = new XMLHttpRequest();
-    request.open( 'POST', baseUrl + '/flag' );
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.setRequestHeader('authorization', 'JWT ' + account.login.token);
+      const request = new XMLHttpRequest();
+      request.open( 'POST', baseUrl + '/flag' );
+      request.setRequestHeader( 'Content-Type', 'application/json;charset=UTF-8' );
+      request.setRequestHeader( 'authorization', 'JWT ' + account.login.token );
 
-    var jsonData = JSON.stringify({ "pointId": id, "flagReason": reason });
+      var jsonData = JSON.stringify( { 'pointId': id, 'flagReason': reason } );
 
-    request.onload = event => {
-      if ( request.status === 200 ) {
-        resolve( request );
-      } else {
-        reject( request);
-      }
-    };
-    request.onerror = event => {
-      reject( request );
-    };
-    request.send( jsonData );
-    } ).then( res => {
-        dispatch( setSnackbar( { message: 'Successfully flagged point' } ) );
-      } ).catch( err => {
-        if(err.status === 401){
-          dispatch( setSnackbar( { message: 'You must be logged in to flag points' } ) );
-        }else if(err.status === 400){
-          dispatch( setSnackbar( { message: JSON.parse(err.responseText).error } ) );
-        }else{
-          dispatch( setSnackbar( { message: 'Unable to contact the server to flag the point' } ) );
+      request.onload = event => {
+        if ( request.status === 200 ) {
+          resolve( request );
+        } else {
+          reject( request );
         }
-      } );
+      };
+      request.onerror = event => {
+        reject( request );
+      };
+      request.send( jsonData );
+    } ).then( res => {
+      dispatch( setSnackbar( { message: 'Successfully flagged point' } ) );
+    } ).catch( err => {
+      if ( err.status === 401 ) {
+        dispatch( setSnackbar( { message: 'You must be logged in to flag points' } ) );
+      } else if ( err.status === 400 ) {
+        dispatch( setSnackbar( { message: JSON.parse( err.responseText ).error } ) );
+      } else {
+        dispatch( setSnackbar( { message: 'Unable to contact the server to flag the point' } ) );
+      }
+    } );
 
-    };
+  };
 }
 
 // Returns either the local (non-published) cover image URL or
@@ -329,24 +318,24 @@ export function getCoverPhotoURLForPointId( pointId ) {
   return ( dispatch, getState ) => {
     let state = getState();
 
-    if(state.points.coverPhotoUrls[pointId] == null) {
-      if(state.points.unpublishedCoverPhotos[pointId]) {
-        return Promise.resolve().then( ( ) => {
-          base64StringToBlob(state.points.unpublishedCoverPhotos[pointId]).then((coverPhotoBlob) => {
-            let theUrl = URL.createObjectURL(coverPhotoBlob);
-            dispatch( { type: SET_URL_FOR_POINTID, pointId: pointId, url: theUrl} );
-          });
-        });
+    if ( state.points.coverPhotoUrls[ pointId ] == null ) {
+      if ( state.points.unpublishedCoverPhotos[ pointId ] ) {
+        return Promise.resolve().then( () => {
+          base64StringToBlob( state.points.unpublishedCoverPhotos[ pointId ] ).then( ( coverPhotoBlob ) => {
+            let theUrl = URL.createObjectURL( coverPhotoBlob );
+            dispatch( { type: SET_URL_FOR_POINTID, pointId: pointId, url: theUrl } );
+          } );
+        } );
       } else {
-        let testRemoteURL = photoBaseUrl + "/" + encodeURIComponent(pointId) + "/coverPhoto.jpg";
+        let testRemoteURL = photoBaseUrl + '/' + encodeURIComponent( pointId ) + '/coverPhoto.jpg';
 
         const request = new XMLHttpRequest();
         request.open( 'HEAD', testRemoteURL );
         request.onload = event => {
-          if (request.status != 404) {
-            dispatch( { type: SET_URL_FOR_POINTID, pointId: pointId, url: testRemoteURL} );
+          if ( request.status != 404 ) {
+            dispatch( { type: SET_URL_FOR_POINTID, pointId: pointId, url: testRemoteURL } );
           } else {
-            console.log("The above 404 is normal. We're just checking if there is a remote photo for this point.")
+            console.log( 'The above 404 is normal. We are just checking if there is a remote photo for this point.' );
           }
         };
         request.send();
@@ -364,17 +353,17 @@ export function replicatePoints() {
 
     return local.replicate.from( remote, { retry: true } ).then( result => {
       dispatch( { type: RECEIVE_REPLICATION, time: result.end_time } );
-    } ).then(( ) => dispatch( reloadPoints() ) )
-    .catch( err => {
-      console.log(err);
-      dispatch( { type: RECEIVE_REPLICATION, time: err.end_time } );
-      dispatch( setSnackbar( { message: 'Unable to get points of interest from server' } ) );
-    } );
+    } ).then( () => dispatch( reloadPoints() ) )
+      .catch( err => {
+        console.log( err );
+        dispatch( { type: RECEIVE_REPLICATION, time: err.end_time } );
+        dispatch( setSnackbar( { message: 'Unable to get points of interest from server' } ) );
+      } );
   };
 }
 
-export function replicatePointsWithCallback(callbackFunc) {
-  return dispatch => Promise.resolve().then(() => dispatch(replicatePoints())).then(() => callbackFunc());
+export function replicatePointsWithCallback( callbackFunc ) {
+  return dispatch => Promise.resolve().then( () => dispatch( replicatePoints() ) ).then( () => callbackFunc() );
 }
 
 // # Replication Agent
@@ -420,17 +409,17 @@ export class ReplicationAgent extends Agent {
     if ( isOnline ) {
       this.store.dispatch( replicatePoints() );
       this.replicationInterval = setInterval(
-        ( ) => this.store.dispatch( replicatePoints() ),
+        () => this.store.dispatch( replicatePoints() ),
         repIvalM * 60 * 1000
       );
     }
     clearTimeout( this.publishInterval );
-    if ( isOnline && login.loggedIn && updatedLength > 0) {
+    if ( isOnline && login.loggedIn && updatedLength > 0 ) {
       this.store.dispatch( publishPoints() );
       this.publishInterval = setInterval(
-        ( ) => this.store.dispatch( publishPoints() ),
+        () => this.store.dispatch( publishPoints() ),
         repIvalM * 60 * 1000
-       );
+      );
     }
   }
 }
@@ -451,12 +440,12 @@ export function publishPoints() {
       return new Promise( ( resolve, reject ) => {
         const request = new XMLHttpRequest();
         request.open( 'POST', baseUrl + '/publish' );
-        request.setRequestHeader('authorization', 'JWT ' + account.login.token);
+        request.setRequestHeader( 'authorization', 'JWT ' + account.login.token );
         request.onload = event => {
           if ( request.status === 200 ) {
             resolve( request );
           } else {
-            reject( request);
+            reject( request );
           }
         };
         request.onerror = event => {
@@ -470,9 +459,9 @@ export function publishPoints() {
       dispatch( setSnackbar( { message: 'Published points of interest' } ) );
     } ).catch( err => {
       dispatch( { type: RECEIVE_PUBLISH, err } );
-      if(err.status === 401){
+      if ( err.status === 401 ) {
         dispatch( setSnackbar( { message: 'You must be logged in to publish points' } ) );
-      }else{
+      } else {
         dispatch( setSnackbar( { message: 'Unable to publish points of interest to server' } ) );
       }
     } );
@@ -488,9 +477,9 @@ function buildFormData( models, unpublishedCoverPhotos ) {
   ).forEach(
     model => {
       const json = model.toJSON();
-      if ( unpublishedCoverPhotos[model.id] ) {
+      if ( unpublishedCoverPhotos[ model.id ] ) {
         json.index = covers.length;
-        covers.push( unpublishedCoverPhotos[model.id] );
+        covers.push( unpublishedCoverPhotos[ model.id ] );
       }
       serialized.push( json );
     }
@@ -500,15 +489,15 @@ function buildFormData( models, unpublishedCoverPhotos ) {
   const formData = new FormData();
   formData.append( 'models', stringified );
 
-  var convertAndAppend = function(cover){
-    return base64StringToBlob(cover).then((coverPhotoBlob) => {
+  var convertAndAppend = function( cover ) {
+    return base64StringToBlob( cover ).then( ( coverPhotoBlob ) => {
       formData.append( 'covers', coverPhotoBlob, 'coverPhoto.jpg' );
-    });
+    } );
   };
 
-  let coverPhotoBlobs = covers.map(convertAndAppend);
+  let coverPhotoBlobs = covers.map( convertAndAppend );
 
-  return Promise.all(coverPhotoBlobs).then(() => {
+  return Promise.all( coverPhotoBlobs ).then( () => {
     return formData;
-  });
+  } );
 }

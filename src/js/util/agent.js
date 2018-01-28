@@ -8,7 +8,7 @@ export class Agent {
 
 export function observeStore( store, select, callback ) {
   let cache = select( store.getState() );
-  return store.subscribe( ( ) => {
+  return store.subscribe( () => {
     const update = select( store.getState() );
     if ( !isEqual( cache, update ) ) {
       cache = update;

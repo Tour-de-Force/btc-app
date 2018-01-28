@@ -203,7 +203,7 @@ export default class PointPage extends Component {
 
     const {wizard} = this.refs;
     if ( wizard ) {
-      wizard.persistBefore( ( ) => {
+      wizard.persistBefore( () => {
         if ( this.isTabValid() ) {
           this.navAttempt = false;
           nav();
@@ -222,7 +222,7 @@ export default class PointPage extends Component {
   // moved the map around while choosing a location. We want to make sure the
   // map page is in the right place after the wizard is completed.
   onSubmit() {
-    const {pageActions, isOnline } = this.props;
+    const {pageActions, isOnline} = this.props;
     const {point} = this.state;
     const onFinal = this.onFinal.bind( this );
     this.navAttempt = true;
@@ -233,7 +233,7 @@ export default class PointPage extends Component {
 
     const {wizard} = this.refs;
     if ( wizard ) {
-      wizard.persistBefore( ( ) => {
+      wizard.persistBefore( () => {
         if ( this.isTabValid() ) {
           this.navAttempt = false;
           onFinal();
@@ -309,7 +309,7 @@ export default class PointPage extends Component {
     // This is a bad way to do this, but React is absurd.
     // The map page is the only one that wants a flexbox.
     var wrapperClass = 'layout__section';
-    if(wizardPage.type.name == "PointLocation") {
+    if ( wizardPage.type.name == 'PointLocation' ) {
       wrapperClass = 'layout__section__fullflex';
     }
 

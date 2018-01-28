@@ -87,12 +87,12 @@ export class FormBlock extends Component {
       if ( error ) {
         textProps.errorText = error.message;
       }
-      if ( [ 'email'].indexOf( field.name ) >= 0 ) {
-        textProps.type = "email";
+      if ( [ 'email' ].indexOf( field.name ) >= 0 ) {
+        textProps.type = 'email';
       }
 
-      if ( ['password', 'confirm_password'].indexOf( field.name ) >= 0 ) {
-        textProps.type = "password";
+      if ( [ 'password', 'confirm_password' ].indexOf( field.name ) >= 0 ) {
+        textProps.type = 'password';
       }
 
       // These props control the appearance of the Field element
@@ -152,7 +152,7 @@ export class FormBlock extends Component {
 
     /*eslint-disable no-unused-vars*/
     let actionProps = {};
-    if ( !this.props.thinActionButton ) {
+    if ( !thinActionButton ) {
       actionProps.fullWidth = true;
       actionProps.secondary = true;
     } else {
@@ -169,7 +169,7 @@ export class FormBlock extends Component {
           label={ this.props.actionText } />
       </Block>
       );
-      /*eslint-enable no-unused-vars*/
+  /*eslint-enable no-unused-vars*/
   }
 }
 

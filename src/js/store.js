@@ -12,13 +12,13 @@ import drawer from './reducers/btc-drawer';
 
 import { fromJS } from 'immutable';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import { persistStore, autoRehydrate, createTransform } from 'redux-persist'
+import { persistStore, autoRehydrate, createTransform } from 'redux-persist';
 import thunk from 'redux-thunk';
 import history from './history';
 
 const devTools = typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f;
 
-const args = [ autoRehydrate(), applyMiddleware( thunk )];
+const args = [ autoRehydrate(), applyMiddleware( thunk ) ];
 if ( process.env.NODE_ENV === 'development' ) {
   args.push( devTools );
 }
@@ -32,38 +32,37 @@ const theStore = compose.apply( null, args )( createStore )( combineReducers( {
   notifications,
   points,
   settings,
-  tracks
-} ) );
+tracks } ) );
 
 // Convert the immutable data to normal JS with the immutable library.
-function serializeMakeMutable(inboundState, key) {
-	return inboundState.toJS();
+function serializeMakeMutable( inboundState, key ) {
+  return inboundState.toJS();
 }
 
 // Convert the normal JS to immatable data with the immutable library.
-function deserializeMakeImmutable(outboundState, key) {
-	return(fromJS(outboundState));
+function deserializeMakeImmutable( outboundState, key ) {
+  return (fromJS( outboundState ));
 }
 
 // The tracks reducer wraps its state in the immutable library's imutableness.
 // We need to add these extra steps on serialize and deserialize.
 let immutableTransformer = createTransform(
-  (inboundState, key) => serializeMakeMutable(inboundState, key),
-  (outboundState, key) => deserializeMakeImmutable(outboundState, key),
-  {whitelist: ['tracks']}
+  ( inboundState, key ) => serializeMakeMutable( inboundState, key ),
+  ( outboundState, key ) => deserializeMakeImmutable( outboundState, key ),
+  { whitelist: [ 'tracks' ] }
 );
 
 /*
 // Just print the key and state as it is serialized for debugging.
 function serializePrint(inboundState, key) {
-  console.log("Serializing " + key + ":");
+  console.log('Serializing ' + key + ':');
   console.log(inboundState);
   return inboundState;
 }
 
 // Just print the key and state as it is deserialized for debugging.
 function deserializePrint(outboundState, key) {
-  console.log("Deserializing " + key + ":");
+  console.log('Deserializing ' + key + ':');
   console.log(outboundState);
   return outboundState;
 }
@@ -78,12 +77,12 @@ let debugPrintTransformer = createTransform(
 */
 
 // Don't persist the drawer state (basically the title on the nav bar).
-persistStore(theStore, {transforms: [immutableTransformer/*, debugPrintTransformer*/], blacklist: ['drawer', 'map', 'network', 'notifications', 'tracks']}, () => {
+persistStore( theStore, { transforms: [ immutableTransformer /*, debugPrintTransformer*/ ], blacklist: [ 'drawer', 'map', 'network', 'notifications', 'tracks' ] }, () => {
   // This is called once the store is loaded.
-  if (!theStore.getState().settings.shownOnboarding) {
-    theStore.dispatch(setShownOnboarding(true));
-    history.push(`/onboarding`);
+  if ( !theStore.getState().settings.shownOnboarding ) {
+    theStore.dispatch( setShownOnboarding( true ) );
+    history.push( '/onboarding' );
   }
-});
+} );
 
 export default theStore;

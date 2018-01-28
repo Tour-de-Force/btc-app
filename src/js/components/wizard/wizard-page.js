@@ -2,14 +2,13 @@
 import React, { Component } from 'react';
 import { keys, pick, assign, isFunction, bindAll, isEmpty } from 'lodash';
 import { RaisedButton, FlatButton, Popover, Menu, MenuItem } from 'material-ui';
+import PointCard from '../point-card/point-card';
+import { connect } from 'react-redux';
+import { imgSrcToBlob, createObjectURL, base64StringToBlob, dataURLToBlob } from 'blob-util';
+import Device, { PhotoEncodingMethods } from '../../util/device';
 /*eslint-enable no-unused-vars*/
 
-import Device, { PhotoEncodingMethods } from '../../util/device';
-import PointCard from '../point-card/point-card';
 
-import { connect } from 'react-redux';
-
-import { imgSrcToBlob, createObjectURL, base64StringToBlob, dataURLToBlob } from 'blob-util';
 
 import '../../../css/wizard.css';
 
@@ -46,21 +45,21 @@ export class WizardPage extends Component {
   // Pick the values for fields in `getPageFields()` for serialization;
   getPageValues() {
     const object = assign( {}, pick( this.state, this.getPageFields() ) );
-    for (var property in object) {
-      if (object.hasOwnProperty(property)) {
-        if (object[property] === "") {
-          object[property] = undefined;
+    for ( var property in object ) {
+      if ( object.hasOwnProperty( property ) ) {
+        if ( object[ property ] === '' ) {
+          object[ property ] = undefined;
         }
       }
     }
     let keyValues = object;
 
     /* for each key if the key is an instanceof date the key value is now converted into a string */
-    Object.keys(keyValues).forEach(function(key) {
-      if(keyValues[key] instanceof Date) {
-        keyValues[key] = keyValues[key].toISOString();
+    Object.keys( keyValues ).forEach( function( key ) {
+      if ( keyValues[ key ] instanceof Date ) {
+        keyValues[ key ] = keyValues[ key ].toISOString();
       }
-    });
+    } );
 
     return keyValues;
   }
@@ -77,13 +76,13 @@ export class WizardPage extends Component {
   // # getPageSecondaryActions
   // If the wizard page should have other buttons that don't really fit with
   // the flow of the other fields, you can put them in the same row as the
-  // "next" button.
+  // 'next' button.
   getPageSecondaryActions() {
     return;
   }
 
   // # getPreferredTransition
-  // Return the preferred transition type, to modify the effect of the "next"
+  // Return the preferred transition type, to modify the effect of the 'next'
   // button. This may be overriden.
   getPreferredTransition() {
     console.error( 'WizardPage#getPageContent() is abstract' );
@@ -92,7 +91,7 @@ export class WizardPage extends Component {
 
   // # getTransition
   // Returns a transition type from WizardPage.transitions to modify the
-  // effect of the "next" button.
+  // effect of the 'next' button.
   //
   // This method takes in the wizard page
   // subclass' preference into account. However, we override the preference
@@ -162,11 +161,11 @@ export class WizardPage extends Component {
     const {label} = this.getTransition();
 
     return (
-      <div className="tabs-content">
-        <div className="tabs-content__form">
+      <div className='tabs-content'>
+        <div className='tabs-content__form'>
           { this.getPageContent() }
         </div>
-        <div className="tabs-content__action">
+        <div className='tabs-content__action'>
           <div>
             { this.getPageSecondaryActions() }
             <RaisedButton primary
@@ -179,8 +178,9 @@ export class WizardPage extends Component {
       );
   }
 
-  clickPhotoButton(event) {
-    if(device.platform == "browser") {
+  clickPhotoButton( event ) {
+    let device = Device;
+    if ( device.platform == 'browser' ) {
       // Go directly to library adding for browser.
       this.onPhotoAddFromLibrary();
     } else {
@@ -189,156 +189,160 @@ export class WizardPage extends Component {
       // This prevents ghost click.
       event.preventDefault();
 
-      this.setState({
+      this.setState( {
         popoverOpen: true,
         popoverAnchorEl: event.currentTarget,
-      });
+      } );
     }
   }
 
   closePhotoPopover() {
-    this.setState({
+    this.setState( {
       popoverOpen: false,
-    });
+    } );
   }
 
   getPhotoButton() {
     return (
-  		<div>
-        <RaisedButton
-          onTouchTap={this.clickPhotoButton.bind(this)}
-          label="Upload Photo"
-        />
-        <Popover
-          open={this.state.popoverOpen}
-          anchorEl={this.state.popoverAnchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          onRequestClose={this.closePhotoPopover.bind(this)}
-        >
+      <div>
+        <RaisedButton onTouchTap={ this.clickPhotoButton.bind( this ) }
+          label='Upload Photo' />
+        <Popover open={ this.state.popoverOpen }
+          anchorEl={ this.state.popoverAnchorEl }
+          anchorOrigin={ { horizontal: 'left', vertical: 'bottom' } }
+          targetOrigin={ { horizontal: 'left', vertical: 'top' } }
+          onRequestClose={ this.closePhotoPopover.bind( this ) }>
           <Menu>
-            <MenuItem onTouchTap={ this.onPhotoAddFromCamera.bind(this) } primaryText="Camera" />
-            <MenuItem onTouchTap={ this.onPhotoAddFromLibrary.bind(this) } primaryText="Library" />
+            <MenuItem onTouchTap={ this.onPhotoAddFromCamera.bind( this ) }
+              primaryText='Camera' />
+            <MenuItem onTouchTap={ this.onPhotoAddFromLibrary.bind( this ) }
+              primaryText='Library' />
           </Menu>
         </Popover>
-        &nbsp;&nbsp;
       </div>
-  	);
+      );
   }
 
   onPhotoAddFromCamera() {
-  	this.onPhotoAdd(Camera.PictureSourceType.CAMERA);
+    // eslint-disable-next-line no-undef
+    this.onPhotoAdd( Camera.PictureSourceType.CAMERA );
   }
 
   onPhotoAddFromLibrary() {
-  	this.onPhotoAdd(Camera.PictureSourceType.PHOTOLIBRARY);
+    // eslint-disable-next-line no-undef
+    this.onPhotoAdd( Camera.PictureSourceType.PHOTOLIBRARY );
   }
 
   // Uses the Cordova file reading plugin to work around WKWebView
   // security limitations on iOS by loading photos natively.
-  getLocalFileAsURL(path, successFunction) {
-    window.resolveLocalFileSystemURL(path, function(fileSystem) {
-      fileSystem.file(function(file) {
-        
+  getLocalFileAsURL( path, successFunction ) {
+    window.resolveLocalFileSystemURL( path, function( fileSystem ) {
+      fileSystem.file( function( file ) {
+
         var fileReader = new FileReader();
-        
-        fileReader.onload = function(e) {
-          var blob = new Blob([e.target.result]);
-          var url = URL.createObjectURL(blob);
-          successFunction(url);
+
+        fileReader.onload = function( e ) {
+          var blob = new Blob( [ e.target.result ] );
+          var url = URL.createObjectURL( blob );
+          successFunction( url );
         };
 
-        fileReader.readAsArrayBuffer(file);
+        fileReader.readAsArrayBuffer( file );
 
-      });
-    });
+      } );
+    } );
   }
 
   // There is a bug in capturing a photo from the browser:
   // [CB-9852](https://issues.apache.org/jira/browse/CB-9852)
-  onPhotoAdd(mySourceType) {
+  onPhotoAdd( mySourceType ) {
     // Close the popover now that they selected a source.
-    this.setState({ popoverOpen: false });
+    this.setState( { popoverOpen: false } );
 
     // Work around WKWebView being too big on iOS after using this plugin.
     // We show the bar again in both the success and error cases.
+    // eslint-disable-next-line no-undef
     StatusBar.hide();
 
     navigator.camera.getPicture( photo => {
+      // eslint-disable-next-line no-undef
       StatusBar.show();
 
-  		let loadedCoverImage = document.createElement('img');
-  		// Need to wait for loadedCoverImage to load and then keep working
-  		loadedCoverImage.onload = event => {
+      let loadedCoverImage = document.createElement( 'img' );
+      // Need to wait for loadedCoverImage to load and then keep working
+      loadedCoverImage.onload = event => {
 
-  			//Shrink the theBlob which was photo but now is a blob
-  			let MAX_WIDTH = 800;
-  			let MAX_HEIGHT = 600;
+        //Shrink the theBlob which was photo but now is a blob
+        let MAX_WIDTH = 800;
+        let MAX_HEIGHT = 600;
 
-  			var newWidth = loadedCoverImage.width;
-  			var newHeight = loadedCoverImage.height;
+        var newWidth = loadedCoverImage.width;
+        var newHeight = loadedCoverImage.height;
 
-  			if (newWidth > newHeight) {
-  			    if (newWidth > MAX_WIDTH) {
-  			       newHeight *= MAX_WIDTH / newWidth;
-  			       newWidth = MAX_WIDTH;
-  			    }
-  			} else {
-  			    if (newHeight > MAX_HEIGHT) {
-  			       newWidth *= MAX_HEIGHT / newHeight;
-  			       newHeight = MAX_HEIGHT;
-  			    }
-  			}
+        if ( newWidth > newHeight ) {
+          if ( newWidth > MAX_WIDTH ) {
+            newHeight *= MAX_WIDTH / newWidth;
+            newWidth = MAX_WIDTH;
+          }
+        } else {
+          if ( newHeight > MAX_HEIGHT ) {
+            newWidth *= MAX_HEIGHT / newHeight;
+            newHeight = MAX_HEIGHT;
+          }
+        }
 
-  			let canvas = document.createElement('canvas');
-  			canvas.width = newWidth;
-  			canvas.height = newHeight;
+        let canvas = document.createElement( 'canvas' );
+        canvas.width = newWidth;
+        canvas.height = newHeight;
 
-  			let context = canvas.getContext('2d');
-  			context.drawImage(loadedCoverImage, 0, 0, newWidth, newHeight);
-  			let resizedDataUrl = canvas.toDataURL('image/jpeg');
+        let context = canvas.getContext( '2d' );
+        context.drawImage( loadedCoverImage, 0, 0, newWidth, newHeight );
+        let resizedDataUrl = canvas.toDataURL( 'image/jpeg' );
 
-  			let resizedCoverBlob = dataURLToBlob(resizedDataUrl);
+        let resizedCoverBlob = dataURLToBlob( resizedDataUrl );
 
-  			this.props.wizardActions.setSnackbar({ message: 'Successfully uploaded photo' });
+        this.props.wizardActions.setSnackbar( { message: 'Successfully uploaded photo' } );
 
-  			resizedCoverBlob.then(coverBlob => {
-  				this.setState( { coverBlob } );
-  			});
-  		};
+        resizedCoverBlob.then( coverBlob => {
+          this.setState( { coverBlob } );
+        } );
+      };
 
-  		// This will load the photo into the loadedCoverImage element,
-  		// which will trigger the above onload callback to finish
-  		// processing and attaching the image.
-  		const device = Device.getDevice();
-  		switch ( device.getPhotoEncodingMethod() ) {
-  			case PhotoEncodingMethods.ImgSrc:
-  				this.getLocalFileAsURL(photo, function(theURL){
-  					loadedCoverImage.src = theURL;
-  				});
-  			break;
-  			case PhotoEncodingMethods.Base64String:
-  				base64StringToBlob( photo ).then( theBlob => {
-  					loadedCoverImage.src = URL.createObjectURL(theBlob);
-  				});
-  			break;
-  			case PhotoEncodingMethods.None:
-  			default:
-  				console.error("Device has no PhotoEncodingMethod. We don't know how to handle this photo.");
-  		}
-    }, err =>  {
-        StatusBar.show();
-      	console.error( err );
+      // This will load the photo into the loadedCoverImage element,
+      // which will trigger the above onload callback to finish
+      // processing and attaching the image.
+      const device = Device.getDevice();
+      switch ( device.getPhotoEncodingMethod() ) {
+      case PhotoEncodingMethods.ImgSrc:
+        this.getLocalFileAsURL( photo, function( theURL ) {
+          loadedCoverImage.src = theURL;
+        } );
+        break;
+      case PhotoEncodingMethods.Base64String:
+        base64StringToBlob( photo ).then( theBlob => {
+          loadedCoverImage.src = URL.createObjectURL( theBlob );
+        } );
+        break;
+      case PhotoEncodingMethods.None:
+      default:
+        console.error( 'Device has no PhotoEncodingMethod. We don\'t know how to handle this photo.' );
+      }
+    }, err => {
+      // eslint-disable-next-line no-undef
+      StatusBar.show();
+      console.error( err );
     }, {
-		// Some common settings are 20, 50, and 100
-		quality: 100,     /* Camera.. */
-		destinationType: Camera.DestinationType.FILE_URI,
-		sourceType: mySourceType,
-		encodingType: Camera.EncodingType.JPG,
-		mediaType: Camera.MediaType.PICTURE,
-		correctOrientation: true, //Corrects Android orientation quirks
-		cameraDirection: Camera.Direction.BACK
-    });
+      // Some common settings are 20, 50, and 100
+      quality: 100, /* Camera.. */
+      /* eslint-disable no-undef */
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: mySourceType,
+      encodingType: Camera.EncodingType.JPG,
+      mediaType: Camera.MediaType.PICTURE,
+      correctOrientation: true, //Corrects Android orientation quirks
+      cameraDirection: Camera.Direction.BACK
+    /* eslint-enable no-undef */
+    } );
   }
 }
 

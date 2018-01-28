@@ -10,9 +10,9 @@
     "debug:ios-sim": "cordova build ios",
     "dev": "shell-exec --colored-output \"npm run watch\" \"npm run livereload\"",
     "doc": "docco src/js/*.js src/js/*/*.js -o docs/generated",
-    "format": "esformatter --diff \"?(src|test)/js/**/*.js\"",
-    "format:replace": "esformatter -i \"?(src|test)/js/**/*.js\"",
-    "lint": "eslint \"?(src|test)/js/**/*.js\"",
+    "format": "esformatter --diff \"src/js/**/*.js\"",
+    "format:replace": "esformatter -i \"src/js/**/*.js\"",
+    "lint": "eslint \"src/js/**/*.js\"",
     "livereload": "livereload \"platforms/browser/www/\"",
     "postbuild": "cp -r src/index.html src/img src/fonts www/",
     "postdebug:android-device": "cp \"./platforms/android/build/outputs/apk/android-debug.apk\" \"./bicycle-touring-companion-debug.apk\"",
@@ -71,6 +71,7 @@
     "immutable": "~3.8.1",
     "leaflet": "~1.0.3",
     "lodash": "~4.17.4",
+    "mapbox-gl": "^0.41.0",
     "material-ui": "~0.17.0",
     "moment-timezone": "~0.5.11",
     "ngeohash": "~0.6.0",
@@ -79,8 +80,9 @@
     "react": "~15.4.2",
     "react-dom": "~15.4.2",
     "react-hammerjs": "~0.5.0",
-    "react-leaflet": "~1.1.0",
     "react-js-pagination": "~2.0.2",
+    "react-leaflet": "~1.1.0",
+    "react-mapbox-gl": "^2.7.0",
     "react-redux": "~5.0.3",
     "react-router": "~3.0.2",
     "react-tap-event-plugin": "~2.0.1",
@@ -138,7 +140,7 @@
     "skin-deep": "https://github.com/tour-de-force/skin-deep",
     "watchify": "~3.9.0"
   },
-  "optionalDependencies" : {
+  "optionalDependencies": {
     "ios-deploy": "~1.9.1"
   }
 }

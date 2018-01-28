@@ -6,7 +6,7 @@ export const SET_FIT_BOUNDING_BOX = 'btc-app/map/SET_FIT_BOUNDING_BOX';
 
 const USMap = { center: [ 39.8145, -99.9946 ], zoom: 3 };
 
-export default function map( state = { loading: true, center: USMap.center, zoom: USMap.zoom, fitBoundingBox: null } , action ) {
+export default function map( state = { loading: true, center: USMap.center, zoom: USMap.zoom, fitBoundingBox: null }, action ) {
   switch ( action.type ) {
   case SET_MAP_CENTER:
     return { ...state, center: action.center };
@@ -17,7 +17,7 @@ export default function map( state = { loading: true, center: USMap.center, zoom
   case SET_GEO_LOCATION:
     return { ...state, geolocation: action.geolocation };
   case SET_FIT_BOUNDING_BOX:
-    return { ...state, fitBoundingBox: action.fitBoundingBox};
+    return { ...state, fitBoundingBox: action.fitBoundingBox };
   default:
     return state;
   }

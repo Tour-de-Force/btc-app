@@ -18,7 +18,7 @@ const fields = [ {
 }, {
   hint: 'Password',
   name: 'password'
-},{
+}, {
   hint: 'Confirm Password',
   name: 'confirm_password'
 }, {
@@ -27,7 +27,7 @@ const fields = [ {
 }, {
   hint: 'Last name',
   name: 'last'
-}];
+} ];
 
 export class RegisterPage extends Component {
   constructor( props ) {
@@ -46,7 +46,7 @@ export class RegisterPage extends Component {
   // If registration is successful, redirect the user to a "thank you" page
   onRegister( values ) {
     const {dispatch} = this.props;
-    dispatch( register( values, ( ) => history.push( '/thanks' ) ) );
+    dispatch( register( values, () => history.push( '/thanks' ) ) );
   }
 
   render() {

@@ -26,7 +26,7 @@ class PublishPage extends Component {
   }
 
   onPointRemove( point ) {
-    this.props.rescindPoint(point._id);
+    this.props.rescindPoint( point._id );
   }
 
   onPublish() {
@@ -34,10 +34,10 @@ class PublishPage extends Component {
   }
 
   render() {
-    const clear = (
-    <ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
-      color='red' />
-    );
+    // const clear = (
+    // <ClearIcon style={ { fontSize: 'inherit', margin: '0px 0.1em' } }
+    //   color='red' />
+    // );
 
     const instructionsStyle = {
       display: 'flex',
@@ -51,11 +51,11 @@ class PublishPage extends Component {
       margin: '5px 10px 0px 5px'
     };
 
-    const instructions = ( this.props.points.length === 0 ? 
-    <div style={ instructionsStyle }>
-      There are no alerts or services ready to publish.
-    </div> : <div></div>
-	/*<div style={ instructionsStyle }>
+    const instructions = ( this.props.points.length === 0 ?
+      <div style={ instructionsStyle }>
+        There are no alerts or services ready to publish.
+      </div> : <div></div>
+    /*<div style={ instructionsStyle }>
       Click on { clear } to delete a point.
     </div>*/
     );
@@ -65,9 +65,7 @@ class PublishPage extends Component {
         <Paper>
           <PointList instructions={ instructions }
             points={ this.props.points }
-            coverPhotoUrls={ this.props.coverPhotoUrls }
-            /*buttonIcon='clear'
-            buttonAction={ this.onPointRemove.bind( this ) }*/
+            coverPhotoUrls={ this.props.coverPhotoUrls } /*buttonIcon='clear' buttonAction={ this.onPointRemove.bind( this ) }*/
             clickAction={ this.onPointClick.bind( this ) } />
           <div style={ instructionsStyle }>
             <RaisedButton style={ buttonStyle }

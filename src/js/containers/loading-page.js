@@ -13,16 +13,16 @@ import history from '../history';
 export class LoadingPage extends Component {
   componentDidMount() {
     const {isOnline} = this.props.network;
-    let handler = (function(me){
-      return function(){
-        return history.push(`update-service/${ encodeURIComponent( me.props.params.id ) }`);
-      }
-    }(this));
-      if ( isOnline ){
-        this.props.replicatePointsWithCallback(handler);
-      } else {
-        handler();
-      }
+    let handler = ( function( me ) {
+      return function() {
+        return history.push( `update-service/${ encodeURIComponent( me.props.params.id ) }` );
+      };
+    }( this ) );
+    if ( isOnline ) {
+      this.props.replicatePointsWithCallback( handler );
+    } else {
+      handler();
+    }
   }
 
   render() {

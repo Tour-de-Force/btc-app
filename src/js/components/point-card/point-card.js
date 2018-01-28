@@ -60,6 +60,7 @@ export class PointCard extends Component {
   // method, but `loadPoint` synchronously puts some default data into
   // points[ params.id ] that we need *before* render.
   componentDidMount() {
+    // eslint-disable-next-line no-unused-vars
     const {params, points, login, loadPoint, getCoverPhotoURLForPointId} = this.props;
     loadPoint( params.id );
     this.point = points[ params.id ];
@@ -70,6 +71,7 @@ export class PointCard extends Component {
   // See componentDidMount. As we are potentially getting a new id to display
   // from the router, we need to load the point for that id.
   componentWillReceiveProps( nextProps ) {
+    // eslint-disable-next-line no-unused-vars
     const {params, points, login, loadPoint, getCoverPhotoURLForPointId} = nextProps;
     loadPoint( params.id );
     this.point = points[ params.id ];
@@ -81,16 +83,16 @@ export class PointCard extends Component {
   navigate( prefix ) {
     const {navigateWithId} = this.props;
     const point = this.point;
-    return ( ) => navigateWithId( prefix, point );
+    return () => navigateWithId( prefix, point );
   }
 
   navigateNoId( prefix ) {
-    return ( ) => history.push( prefix );
+    return () => history.push( prefix );
   }
 
   static openUntil( service ) {
     const schedule = new Schedule( service.schedule );
-    if (schedule.hasAnyHoursAdded()) {
+    if ( schedule.hasAnyHoursAdded() ) {
       // There are some hours added.
       const closing = schedule.getClosingToday();
       if ( closing ) {
@@ -102,67 +104,75 @@ export class PointCard extends Component {
       }
     } else {
       // There are no hours added.
-      return 'Hours not available'
+      return 'Hours not available';
     }
   }
-/* This method gets the expiration date and displays the date if there is one.
- * Else it will display "no expiration date added."
- */
-static expiresOn( alert ) {
-    var ex_date = new Date(alert.expiration_date);
-    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-    if (alert.expiration_date != null) {
+  /* This method gets the expiration date and displays the date if there is one.
+   * Else it will display "no expiration date added."
+   */
+  static expiresOn( alert ) {
+    var ex_date = new Date( alert.expiration_date );
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    if ( alert.expiration_date != null ) {
       // Get that expiration date and display that expiration date
-      return 'Expires On: ' + ex_date.toLocaleDateString(navigator.language, options);
-  //else return no exipration date added
-  }else{
-    return 'No expiration date added '
+      return 'Expires On: ' + ex_date.toLocaleDateString( navigator.language, options );
+    //else return no exipration date added
+    } else {
+      return 'No expiration date added ';
+    }
   }
-}
 
-/* This method will calculate the average start ratings */
-getAverageStarRating(comments){
+  /* This method will calculate the average start ratings */
+  getAverageStarRating( comments ) {
     let numberOfPeopleRating = comments.length;
     var totalStars = 0;
 
-    if(numberOfPeopleRating == 0) {
-		return (
-			<div><RaisedButton
-				onTouchTap={ this.navigate( 'rate-point' )}
-        label="Be the first to rate this point!"/><br/><br/><br/></div>
+    if ( numberOfPeopleRating == 0 ) {
+      return (
+        <div>
+          <RaisedButton onTouchTap={ this.navigate( 'rate-point' ) }
+            label="Be the first to rate this point!" />
+          <br/>
+          <br/>
+          <br/>
+        </div>
 
-				//primaryText={ "Be the first to rate!"} /></div>
-		); // EARLY RETURN (not yet rated)
+        //primaryText={ "Be the first to rate!"} /></div>
+        ); // EARLY RETURN (not yet rated)
     }
 
     //loop over the comments to get the length of the array (aka how mant ratings are there).
-    for (var i = 0; i < comments.length; i++) {
+    for ( var i = 0; i < comments.length; i++ ) {
       // add the total stars
-      totalStars += comments[i].rating;
+      totalStars += comments[ i ].rating;
     }
 
     var averageStars = 0;
     //calculating the average star ratings.
-    averageStars = (totalStars*1.0)/numberOfPeopleRating;
+    averageStars = ( totalStars * 1.0 ) / numberOfPeopleRating;
     //Round to get the nearest int
-    averageStars = Math.round(averageStars);
+    averageStars = Math.round( averageStars );
 
 
     const style = { fontSize: '16px' };
     const average = (
-      <RatingSelector disabled
-        rating={ averageStars }
-        style={ style } />
-      );
+    <RatingSelector disabled
+      rating={ averageStars }
+      style={ style } />
+    );
 
     return (
-    <div><RaisedButton
-      onTouchTap={ this.navigate( 'rate-point' )}
-      label="View Ratings"
-      labelPosition="before">
-      {average}&nbsp;&nbsp;&nbsp;&nbsp;
-      </RaisedButton><br/><br/><br/></div>
-    );
+      <div>
+        <RaisedButton onTouchTap={ this.navigate( 'rate-point' ) }
+          label="View Ratings"
+          labelPosition="before">
+          { average }
+        </RaisedButton>
+        <br/>
+        <br/>
+        <br/>
+      </div>
+      );
 
   }
 
@@ -202,7 +212,7 @@ getAverageStarRating(comments){
 
 
     if ( type === 'service' ) {
-      if (this.props.login.loggedIn == true) {
+      if ( this.props.login.loggedIn == true ) {
         update = (
           <MenuItem primaryText='Update Information'
             onTouchTap={ this.navigate( 'loading' ) } />
@@ -230,7 +240,7 @@ getAverageStarRating(comments){
         );
       }
     } else {
-      if (this.props.login.loggedIn == true) {
+      if ( this.props.login.loggedIn == true ) {
         flag = (
           <MenuItem primaryText='Flag'
             onTouchTap={ this.navigate( 'flag-point' ) } />
@@ -278,7 +288,7 @@ getAverageStarRating(comments){
         );
     }
 
-    let coverPhotoUrl = this.props.coverPhotoUrls[this.point._id];
+    let coverPhotoUrl = this.props.coverPhotoUrls[ this.point._id ];
     let coverPhotoStyle = {};
     if ( coverPhotoUrl ) {
       coverPhotoStyle.backgroundImage = `url(${coverPhotoUrl})`;
@@ -289,7 +299,7 @@ getAverageStarRating(comments){
         <CardHeader className="point-card__header"
           title={ point.name }
           subtitle={ display( point.type ) }
-          avatar={ <LocationIcon className="point-card__avatar"/> }>
+          avatar={ <LocationIcon className="point-card__avatar" /> }>
           { this.getIconMenu() }
         </CardHeader>
         <div className="point-card__scroll">

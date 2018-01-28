@@ -1,4 +1,5 @@
-# Bicycle Touring Companion - Client App
+# Bicycle Touring Companion - Client App 
+[![Build Status](https://travis-ci.org/WheelieTired/btc-app.svg?branch=develop)](https://travis-ci.org/WheelieTired/btc-app)
 
 Bicycle Touring Companion uses [React](https://facebook.github.io/react/) and [Cordova](https://cordova.apache.org) to build a native android application.
 

@@ -50,8 +50,8 @@ export function resetPassword( attrs, success ) {
   if ( user.validationError ) {
     return errorInResetPassword( user.validationError );
   }
-  if(attrs.password != attrs.confirm_password){
-    return errorInResetPassword([{dataPath: ".confirm_password", message: "passwords must match"}]);
+  if ( attrs.password != attrs.confirm_password ) {
+    return errorInResetPassword( [ { dataPath: '.confirm_password', message: 'passwords must match' } ] );
   }
 
   return dispatch => {
@@ -74,7 +74,7 @@ export function resetPassword( attrs, success ) {
         } );
     } );
 
-    promise.then( ( ) => {
+    promise.then( () => {
       dispatch( receiveResetPassword() );
       if ( success ) success();
     }, error => {

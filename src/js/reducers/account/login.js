@@ -22,7 +22,7 @@ const initState = {
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case REQUEST_LOGIN:
-    return {...state,
+    return { ...state,
       loggedIn: false,
       email: action.email,
       fetching: true,
@@ -30,7 +30,7 @@ export default function reducer( state = initState, action ) {
       error: null
     };
   case RECEIVE_LOGIN:
-    return {...state,
+    return { ...state,
       loggedIn: action.loggedIn,
       email: action.error ? null : state.email,
       firstName: action.error ? null : action.firstName,
@@ -42,19 +42,19 @@ export default function reducer( state = initState, action ) {
       error: action.error || null
     };
   case FAILED_LOGIN_VALIDATION:
-    return {...state,
+    return { ...state,
       loggedIn: false,
       email: null,
       fetching: false,
       validation: action.error || []
     };
   case CLEAR_LOGIN_VALIDATION_AND_ERROR:
-    return {...state,
+    return { ...state,
       validation: [],
       error: null
     };
   case LOGOUT:
-    return {...initState};
+    return { ...initState };
   default:
     return state;
   }
@@ -82,7 +82,7 @@ export function login( attrs, success ) {
         .end( ( error, response ) => {
           switch ( response.statusCode ) {
           case 200:
-            resolve( { token:response.body.auth_token, firstName:response.body.first_name, lastName:response.body.last_name } );
+            resolve( { token: response.body.auth_token, firstName: response.body.first_name, lastName: response.body.last_name } );
             break;
           case 400:
           default:

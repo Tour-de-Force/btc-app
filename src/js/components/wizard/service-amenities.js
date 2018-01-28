@@ -75,9 +75,8 @@ export class ServiceAmenities extends WizardPage {
     return (
       <div>
         <RaisedButton label="Add amenity"
-        disabled={ !this.state.amenity }
-        onTouchTap={ this.addAmenity } />
-        &nbsp;&nbsp;
+          disabled={ !this.state.amenity }
+          onTouchTap={ this.addAmenity } />
       </div>
       );
   }

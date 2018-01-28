@@ -29,7 +29,7 @@ import FilterPage from './containers/filter-page';
 import SettingsPage from './containers/settings-page';
 import PublishPage from './containers/publish-page';
 import AboutPage from './containers/about-page';
-import OnboardingPage from './containers/onboarding'
+import OnboardingPage from './containers/onboarding';
 
 import AddServicePage from './containers/wizard/add-service-page';
 import UpdateServicePage from './containers/wizard/update-service-page';
@@ -73,7 +73,7 @@ injectTapEventPlugin();
 // In order for this event to be fired, cordova.js must already be loaded via
 // a <script> tag. Also, a <div class="main" /> is required in the body. We
 // render the application into that div.
-document.addEventListener( 'deviceReady', ( ) => {
+document.addEventListener( 'deviceReady', () => {
   const network = new NetworkStateAgent( store );
   network.run();
 
@@ -126,7 +126,7 @@ document.addEventListener( 'deviceReady', ( ) => {
             <Route path="thanks"
               component={ ThanksPage } />
             <Route path="/loading/:id"
-              component={ LoadingPage }/>
+              component={ LoadingPage } />
             <Route path="add-service"
               component={ AddServicePage }>
               <IndexRoute component={ PointLocation } />

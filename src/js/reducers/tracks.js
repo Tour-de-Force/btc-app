@@ -30,7 +30,7 @@ const initState = fromJS( {
     active: false,
     sizeMiB: 4.7,
     sha256: null, // TODO: implement digest check to verify downloads
-    boundingBox: [[47.320206883852414, -66.81884765625001], [24.544624809190402, -81.77261352539062]],
+    boundingBox: [ [ 47.320206883852414, -66.81884765625001 ], [ 24.544624809190402, -81.77261352539062 ] ],
     waypoints: usbr20 // See above
   },
   'usbr-20': {
@@ -44,7 +44,7 @@ const initState = fromJS( {
     active: false,
     sizeMiB: 4.7,
     sha256: null,
-    boundingBox: [[44.13787021128985, -86.57020568847658], [42.69505333013366, -82.3909378051758]],
+    boundingBox: [ [ 44.13787021128985, -86.57020568847658 ], [ 42.69505333013366, -82.3909378051758 ] ],
     waypoints: usbr20 // See above
   }
 } );
@@ -52,28 +52,28 @@ const initState = fromJS( {
 export default function reducer( state = initState, action ) {
   switch ( action.type ) {
   case REQUEST:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     return state.mergeDeepIn( [ action.id ], {
       isFetching: action.progress
     } );
   case RECEIVE:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     return state.mergeDeepIn( [ action.id ], {
       isFetching: false,
       status: action.status
     } );
   case CLEAR:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     return state.mergeDeepIn( [ action.id ], {
       status: 'absent'
     } );
   case DEACTIVATE:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     return state.mergeDeepIn( [ action.id ], {
       active: false
     } );
   case ACTIVATE:
-    state = cloneDeep(state);
+    state = cloneDeep( state );
     return state.mergeDeepIn( [ action.id ], {
       active: true
     } );

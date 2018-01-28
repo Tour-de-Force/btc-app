@@ -47,7 +47,7 @@ export class LoginPage extends Component {
   // snackbar message.
   onLogin( values ) {
     const {dispatch} = this.props;
-    dispatch( login( values, ( ) => {
+    dispatch( login( values, () => {
       history.push( '/' );
       dispatch( setSnackbar( { message: 'You have logged in!' }, 500 ) );
     } ) );

@@ -14,7 +14,7 @@ export class PeekPointCard extends PointCard {
 
   getCardAction() {
     return <RaisedButton label="See More"
-    onTouchTap={ this.navigate( 'view-point' ) } />;
+             onTouchTap={ this.navigate( 'view-point' ) } />;
   }
 
   getCardContent() {
@@ -24,7 +24,7 @@ export class PeekPointCard extends PointCard {
     let timezone = '';
     // Check that this has a schedule property before trying
     // to access things in it (alerts don't have a schedule, but services do).
-    if ( point.schedule && point.schedule.default && point.schedule.default[ 0 ]) {
+    if ( point.schedule && point.schedule.default && point.schedule.default[ 0 ] ) {
       timezone = '(' + point.schedule.default[ 0 ].timezone + ')';
     }
 
@@ -40,8 +40,8 @@ export class PeekPointCard extends PointCard {
     }
 
     let expiresOn;
-    if( type === 'alert'){
-      expiresOn = (<span className="point-card__expires-on">{`${PointCard.expiresOn( point )}`}</span>
+    if ( type === 'alert' ) {
+      expiresOn = (<span className="point-card__expires-on">{ `${PointCard.expiresOn( point )}` }</span>
       );
     }
     return (
@@ -50,7 +50,7 @@ export class PeekPointCard extends PointCard {
         { openUntil }
         <span>{ point.description }</span>
         <br/>
-        { expiresOn } 
+        { expiresOn }
       </CardText>
       );
   }

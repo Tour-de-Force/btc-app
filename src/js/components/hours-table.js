@@ -25,7 +25,7 @@ export class HoursTable extends Component {
       let remove;
       if ( removable ) {
         const button = (
-        <IconButton onTouchTap={ ( ) => onRowRemove( index ) }>
+        <IconButton onTouchTap={ () => onRowRemove( index ) }>
           <ClearIcon />
         </IconButton>
         );

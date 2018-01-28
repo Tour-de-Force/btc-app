@@ -5,22 +5,22 @@ import { Card, CardActions, CardText, RaisedButton, RasiedButton, FlatButton, Pa
 import PointCard from './point-card';
 import { FormBlock } from '../block';
 import RatingSelector from '../rating-selector';
-/*eslint-enable no-unused-vars*/
 
 import { bindAll, cloneDeep } from 'lodash';
 import history from '../../history';
 
 import uuid from 'uuid';
 import { Service } from 'btc-models';
+/*eslint-enable no-unused-vars*/
 
 
 
 export class FlagPointCard extends PointCard {
- 
+
   constructor( props ) {
     super( props );
     bindAll( this, 'callToFlagPoint' );
-    this.errorMessage = "";
+    this.errorMessage = '';
   }
 
   getCardState() {
@@ -29,21 +29,20 @@ export class FlagPointCard extends PointCard {
 
   getCardAction() {
     const goBack = history.goBack.bind( history );
-    return <RaisedButton 
-             Default 
-             label="Go Back"
+    return <RaisedButton Default
+             label='Go Back'
              onTouchTap={ goBack } />;
   }
 
   getCardContent() {
     return (
-      <div className="point-card__content">
+      <div className='point-card__content'>
         { this.getFlagEntry() }
       </div>
       );
   }
 
-callToFlagPoint( values ) {
+  callToFlagPoint( values ) {
     const {flagPoint} = this.props;
     flagPoint( this.point._id, values.reason );
   }
@@ -59,10 +58,10 @@ callToFlagPoint( values ) {
       } ]
     } ];
     return (
-      <FormBlock onAction={ this.callToFlagPoint}
+      <FormBlock onAction={ this.callToFlagPoint }
         thinActionButton
         zDepth={ 0 }
-        actionText="Flag"
+        actionText='Flag'
         fields={ fields }
         problemText={ this.errorMessage } />
       );

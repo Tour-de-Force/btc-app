@@ -17,7 +17,7 @@ export class RatingPointCard extends PointCard {
   constructor( props ) {
     super( props );
     bindAll( this, 'onComment' );
-    this.errorMessage = "";
+    this.errorMessage = '';
   }
 
   getCardState() {
@@ -26,8 +26,7 @@ export class RatingPointCard extends PointCard {
 
   getCardAction() {
     const goBack = history.goBack.bind( history );
-    return <RaisedButton
-             label="Go Back"
+    return <RaisedButton label='Go Back'
              onTouchTap={ goBack } />;
   }
 
@@ -39,7 +38,7 @@ export class RatingPointCard extends PointCard {
 
   getCardContent() {
     return (
-      <div className="point-card__content">
+      <div className='point-card__content'>
         { this.getCommentEntry() }
         { this.getCommentList() }
       </div>
@@ -74,8 +73,8 @@ export class RatingPointCard extends PointCard {
   }
 
   onComment( values ) {
-    const { updateService } = this.props;
-    let usersName = this.props.login.firstName + " " + this.props.login.lastName.slice(0, 1) + '.';
+    const {updateService} = this.props;
+    let usersName = this.props.login.firstName + ' ' + this.props.login.lastName.slice( 0, 1 ) + '.';
     const comment = {
       user: usersName,
       date: new Date().toISOString(),
@@ -83,23 +82,22 @@ export class RatingPointCard extends PointCard {
       rating: values.rating,
       uuid: uuid.v1()
     };
-    if (this.props.login.loggedIn == true) {
-      var newPoint = cloneDeep(this.point);
-      newPoint.comments.push(comment);
+    if ( this.props.login.loggedIn == true ) {
+      var newPoint = cloneDeep( this.point );
+      newPoint.comments.push( comment );
 
       const service = new Service( newPoint );
       service.update();
-      if (service.isValid()) {
-        this.errorMessage = "";
-        updateService(service);
-      }
-      else {
-        this.errorMessage = "Enter a comment between 1 and 140 characters and select a rating between 1 and 5 stars.";
+      if ( service.isValid() ) {
+        this.errorMessage = '';
+        updateService( service );
+      } else {
+        this.errorMessage = 'Enter a comment between 1 and 140 characters and select a rating between 1 and 5 stars.';
         // Re-render to show the error message.
         this.forceUpdate();
       }
     } else {
-      history.push('login')
+      history.push( 'login' );
     }
   }
 
@@ -121,7 +119,7 @@ export class RatingPointCard extends PointCard {
       <FormBlock onAction={ this.onComment }
         thinActionButton
         zDepth={ 0 }
-        actionText="Submit"
+        actionText='Submit'
         fields={ fields }
         problemText={ this.errorMessage } />
       );

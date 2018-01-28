@@ -66,8 +66,8 @@ export class ServiceDescription extends WizardPage {
 
   getPageSecondaryActions() {
     return (
-      this.getPhotoButton()
-      );
+    this.getPhotoButton()
+    );
   }
 
   getPreferredTransition() {
